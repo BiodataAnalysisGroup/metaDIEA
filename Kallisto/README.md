@@ -40,7 +40,7 @@ In order for the Pipeline to be executed correctly, your files should have the f
 
 Next, run the following Docker command
 
->$ docker run --name=container_name -v **//c/Users/Konstantinos/Desktop/Thesis/KallistoPipeline/resources**:/app kallisto_v.1
+>$ docker run --name=kallistoContainer -v **//c/Users/Konstantinos/Desktop/Thesis/KallistoPipeline/resources**:/app kallisto_v.1
 
 The -v flag mounts the files in the path specified inside the container's /app folder.
 
