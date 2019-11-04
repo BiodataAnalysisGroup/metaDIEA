@@ -1,0 +1,25 @@
+
+# kallisto aligner
+# https://pachterlab.github.io/kallisto/
+
+# sleuth R package
+# https://github.com/pachterlab/sleuth
+
+# fasta or fa --> genome file
+# fastq --> raw read files to be aligned on the genome file
+
+# Build an index from the FASTA genome file
+kallisto index /app/genome/transcript.mm10.fa.gz -i /app/genome/mm10.idx
+
+# Map the reads to the transcript using 10 threads
+
+for i in 01 02 03 04 05 06
+do echo $i
+kallisto quant -t 4 -i /app/genome/mm10.idx  -o /app/sample_${i} -b 100  /app/raw/sample_${i}_1.fastq.gz   /app/raw/sample_${i}_2.fastq.gz
+done
+
+# get a matching between the transcript name and its "serial" number
+zcat /app/genome/transcript.mm10.fa.gz| grep ">"  |cut -f -2 -d " "|cut -c 2-|tr " " "\t" > /app/trx.tsv
+
+# run the sleuth package
+Rscript /app/sleuth.SimulatedData.imb.R .
