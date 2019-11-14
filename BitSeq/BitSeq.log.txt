@@ -1,5 +1,5 @@
 #BitSeq - Transcript expression inference and differential expression analysis for RNA-seq data
-https://bioconductor.org/packages/release/bioc/html/BitSeq.html
+#https://bioconductor.org/packages/release/bioc/html/BitSeq.html
 
 cd /app
 
