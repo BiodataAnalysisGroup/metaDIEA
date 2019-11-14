@@ -1,0 +1,25 @@
+#BitSeq - Transcript expression inference and differential expression analysis for RNA-seq data
+https://bioconductor.org/packages/release/bioc/html/BitSeq.html
+
+cd /app
+
+# create bowtie reference index for the annotation
+bowtie-build -f --ntoa ./mm10/transcript.mm10.fa mm10-transcript-index
+
+# align reads against index
+
+for i in `seq -w 1 10|head -n 6`
+do
+echo $i
+zcat raw/sample_${i}_1.fastq.gz   |awk '{ if (substr($0,1,1)=="@") print substr($0,1,150) ; else print $0}'> sample_${i}_1.fastq  &
+zcat raw/sample_${i}_2.fastq.gz   |awk '{ if (substr($0,1,1)=="@") print substr($0,1,150) ; else print $0}'> sample_${i}_2.fastq &
+wait
+
+bowtie -q -v 3 -3 0 -p 16 -a -m 100 --sam mm10-transcript-index -1 sample_${i}_1.fastq -2 sample_${i}_2.fastq | samtools view -Sb  - > sample_${i}.bam 
+rm  sample_${i}_1.fastq sample_${i}_2.fastq
+
+done
+
+Rscript BitSeq.R  ./ mm10
+
+
