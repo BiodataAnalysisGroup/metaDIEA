@@ -19,7 +19,7 @@ Download the Dockerfile in someplace visible from your path, preferably inside a
 Build the image from scratch.
 
 
->$ docker build -t tophat2_v.1 .
+>$ docker build -t tophat2_v.1 **.**
 
 
 Once the installation has finished you can start a container based on this image.
