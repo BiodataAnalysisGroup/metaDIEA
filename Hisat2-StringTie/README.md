@@ -12,12 +12,14 @@ Docker version 19.03 or newer.
 
 ### Installing
 
+The bold parts of each command should be changed to reflect the user's setup
+
 Download the Dockerfile in someplace visible from your path, preferably inside an empty folder.
 
 Build the image from scratch.
 
 
->$ docker build -t hisat2_stringtie_v.1 .
+>$ docker build -t hisat2_stringtie_v.1 **.**
 
 
 Once the installation has finished you can start a container based on this image.
