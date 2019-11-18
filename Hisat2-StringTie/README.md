@@ -12,7 +12,7 @@ Docker version 19.03 or newer.
 
 ### Installing
 
-The bold parts of each command should be changed to reflect the user's setup
+The bold parts of each command should be changed to reflect the user's setup.
 
 Download the Dockerfile in someplace visible from your path, preferably inside an empty folder.
 
