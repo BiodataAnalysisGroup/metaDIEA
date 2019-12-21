@@ -6,7 +6,7 @@ setwd(args[1])
 library("DESeq2")
 library("BiocParallel")
 library(IRanges)
-register(MulticoreParam(1))
+register(MulticoreParam(1)) # 1 for a single thread. Can change to any number.
 
 countData <- as.matrix(read.csv("transcript_count_matrix.csv", row.names="transcript_id"))
 colData <- read.csv("samples.csv", sep=",", row.names=1)
