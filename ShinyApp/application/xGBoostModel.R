@@ -95,21 +95,3 @@ xGBoostModel <- function(finalData, nModels){
   Model <- list(ACCURACY = modelAcc, AUC = modelAUC, F1SCORE = modelF1score,  TIME = timePassed, PARAMETERS = bestParams[,c(1:5)], MODEL = xgbModel)
   return(Model)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
