@@ -34,7 +34,7 @@ During the installation you might be asked to update some specific packages. Upd
 
 In your R Studio IDE open the app.R file.
 
-Before running the app, make sure to place the genes.gtf file insise the /data folder. The file can be downloaded from Figshare: https://figshare.com/articles/dataset/genes_gtf/12416096
+Before running the app, make sure to place the genes.gtf file inside the /data folder. The file can be downloaded from Figshare: https://figshare.com/articles/dataset/genes_gtf/12416096
 
 On the right top corner of the script window press the "Run App" option. Your console will start printing some information about the libraries being using as well as for the data being processed. 
 
