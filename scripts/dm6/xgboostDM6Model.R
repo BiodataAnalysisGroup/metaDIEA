@@ -42,9 +42,9 @@ finalData <- finalData[sample(nrow(finalData)),]
 label <- ifelse(test = finalData[,'DE'] == TRUE, yes = 1, no = 0)
 n = nrow(finalData)
 train.index = sample(n,floor(0.70*n))
-train.data = as.matrix(sapply(finalData[train.index,], as.numeric))
+train.data = as.matrix(sapply(finalData[train.index,-ncol(finalData)], as.numeric))
 train.label = label[train.index]
-test.data = as.matrix(sapply(finalData[-train.index,], as.numeric))
+test.data = as.matrix(sapply(finalData[-train.index,-ncol(finalData)], as.numeric))
 test.label = label[-train.index]
 xgb.train = xgb.DMatrix(data=train.data,label=train.label)
 xgb.test = xgb.DMatrix(data=test.data,label=test.label)
@@ -72,7 +72,6 @@ colnames(currParams) <- c(colnames(tunable_params_grid), "Accuracy", "AUC", "F1s
 for (i in 1:numModels){
   print(paste0("Building model ", i, "..."))
   currParams[i, ] <- tunable_params_grid[sample(nrow(tunable_params_grid), size = 1), ] #sample random combination and train the trees
-  #print(sample(nrow(rfGrid), size = 1))
   #Train Model
   xgbModel <- xgb.train(params = constant_params,
                         eta = currParams[i, 'eta'],
@@ -81,7 +80,6 @@ for (i in 1:numModels){
                         subsample = currParams[i, 'subsample'],
                         colsample_bytree = currParams[i,'colsample_bytree'],
                         data = xgb.train)
-                        #watchlist = watchlist) uncomment error display
   #Prediction
   xgb.pred <- predict(xgbModel, test.data)
   xgb.pred <- as.data.frame(xgb.pred)
@@ -90,11 +88,7 @@ for (i in 1:numModels){
   confusionMatrix(data = as.factor(pred.class), reference = test.label, positive = 'TRUE')
   currParams[i, 'Accuracy'] <- Accuracy(y_pred = pred.class, y_true = test.label)
   pred_obj = prediction(xgb.pred, test.label, label.ordering = c("FALSE", "TRUE"))
-  #ROCcurve <- performance(pred_obj, "tpr", "fpr")
-  #plot(ROCcurve, col = "blue")
-  #abline(0, 1, col = "grey")
   currParams[i, 'AUC'] <- performance(prediction.obj = pred_obj, measure = "auc")@y.values
-  #print(currParams[i,7])
   currParams[i, 'F1score'] <- F1_Score(y_true = test.label, y_pred = pred.class, positive = 'TRUE')
 }
 #taking best model parameters
