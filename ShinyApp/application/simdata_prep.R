@@ -16,7 +16,7 @@ simdata_prep <- function(simData, genes){
   #convert DE status to numeric, in order to aggregate duplicates
   simData[5] <- ifelse(test = (simData$DE == TRUE), yes = 1,no = 0)
   #aggregate duplicates with respect to DE status
-  simData <-aggregate(formula = V5 ~ Id, data = simData, FUN = sum)
+  simData <-aggregate(x= V5 ~ Id, data = simData, FUN = sum) #formula = 
   names(simData)[2] <- "DE"
   simData[2] <- ifelse(test = simData$DE == 0, yes = FALSE, no = TRUE)  
   return(simData)

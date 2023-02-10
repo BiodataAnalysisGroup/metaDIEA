@@ -13,6 +13,7 @@ library(magrittr)
 library(dplyr)
 library(Matrix)
 library(pracma)
+library(data.table)
 # Source functions
 source("./sleuth_prep.R")
 source("./cufflinks_prep.R")
@@ -51,12 +52,18 @@ bitseq_transcripts <- read.table(file = "./data/sample_01.bam.data.tr", sep = " 
 bitseq_data <- bitseq_prep(bitseq_data, bitseq_transcripts, genes)
 
 # RSEM Data
-rsem_data <- read.table(file = "./data/IsoMat.de.txt", fill = TRUE , sep = "\t", header = TRUE, col.names = c("transcript_id", "PPEE", "PPDE", "PostFC", "RealFC", "C1Mean", "C2Mean"), stringsAsFactors = FALSE)
+rsem_data <- read.table(file = "./data/IsoMat.de.txt", fill = TRUE , sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+rsem_data <- setDT(rsem_data, keep.rownames = 'transcript_id')[]
 rsem_data <- rsem_prep(rsem_data, genes)
 
 # EBSeq Data
-ebseq_data <- read.table(file = "./data/EBSeq.Simulated.All.Out.FC.txt", fill = TRUE, sep = "\t", header = TRUE, col.names = c("trx", "PostFC"), stringsAsFactors = FALSE)
-ebseq_data2 <- read.table(file = "./data/EBSeq.Simulated.DE.Out.txt", fill = TRUE , sep = "\t", header = TRUE, col.names = c("trx", "PPEE", "PPDE"), stringsAsFactors = FALSE)
+ebseq_data <- read.table(file = "./data/EBSeq.Simulated.All.Out.FC.txt", fill = TRUE, sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+ebseq_data <- setDT(ebseq_data, keep.rownames = TRUE)
+colnames(ebseq_data) <- c("trx", "PostFC")
+
+ebseq_data2 <- read.table(file = "./data/EBSeq.Simulated.DE.Out.txt", fill = TRUE , sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+ebseq_data2 <- setDT(ebseq_data2, keep.rownames = TRUE)[]
+colnames(ebseq_data2) = col.names = c("trx", "PPEE", "PPDE")
 ebseq_data <- ebseq_prep(ebseq_data, ebseq_data2, genes)
 
 # Simulated Data
